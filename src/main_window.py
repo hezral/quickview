@@ -28,7 +28,7 @@ from gi.repository import Gtk, Gio, Gdk, Granite, GObject, Pango
 
 # quickview imports
 from settings_view import SettingsView
-from workspaces_view import WorkspacesView
+from viewer_view import ViewerView
 
 
 #------------------CLASS-SEPARATOR------------------#
@@ -45,7 +45,7 @@ class QuickviewWindow(Gtk.ApplicationWindow):
         self.modulepath = os.path.dirname(__file__)
 
         #-- view --------#
-        workspaces_view = WorkspacesView()
+        viewer_view = ViewerView()
         settings_view = SettingsView()
         settings_view.connect("notify::visible", self.on_view_visible)
         
@@ -53,18 +53,18 @@ class QuickviewWindow(Gtk.ApplicationWindow):
         stack = Gtk.Stack()
         stack.props.name = "main-stack"
         stack.props.transition_type = Gtk.StackTransitionType.CROSSFADE
+        
+        stack.add_named(viewer_view, viewer_view.get_name())
         stack.add_named(settings_view, settings_view.get_name())
-        stack.add_named(workspaces_view, workspaces_view.get_name())
         
         #-- header --------#
         headerbar = self.generate_headerbar(settings_view=settings_view)
 
-        #-- quickviewWindow construct--------#
-        #self.props.resizable = False #set this and window will expand and retract based on child
-        self.title = "quickview"
+        #-- construct--------#
+        self.props.title = "quickview"
         self.set_keep_above(True)
         self.get_style_context().add_class("rounded")
-        self.set_size_request(650, 550) #set width to -1 to expand and retract based on content
+        self.set_size_request(650, 550) #set width to -1 to expand and retract based on 
         self.set_titlebar(headerbar)
         self.add(stack)
         
@@ -76,8 +76,9 @@ class QuickviewWindow(Gtk.ApplicationWindow):
 
         #------ view switch ----#
         icon_theme = Gtk.IconTheme.get_default()
-        icon_theme.prepend_search_path(os.path.join(self.modulepath, "data/icons"))
-        view_switch = Granite.ModeSwitch.from_icon_name("preferences-desktop-workspaces", "preferences-system-symbolic")
+        # icon_theme.prepend_search_path(os.path.join(self.modulepath, "data/icons"))
+        icon_theme.prepend_search_path("data/icons")
+        view_switch = Granite.ModeSwitch.from_icon_name("com.github.hezral.quickview-symbolic", "preferences-system-symbolic")
         view_switch.props.primary_icon_tooltip_text = "quickview"
         view_switch.props.secondary_icon_tooltip_text = "Settings"
         view_switch.props.valign = Gtk.Align.CENTER
@@ -88,7 +89,7 @@ class QuickviewWindow(Gtk.ApplicationWindow):
         headerbar = Gtk.HeaderBar()
         headerbar.pack_start(header_label)
         headerbar.pack_end(view_switch)
-        headerbar.props.show_close_button = False
+        headerbar.props.show_close_button = True
         headerbar.props.decoration_layout = "close:maximize"
         headerbar.get_style_context().add_class("default-decoration")
         headerbar.get_style_context().add_class(Gtk.STYLE_CLASS_FLAT)
@@ -101,13 +102,14 @@ class QuickviewWindow(Gtk.ApplicationWindow):
         stack = [child for child in window_children if isinstance(child, Gtk.Stack)][0]
         return headerbar, stack
 
-    def get_window_child(self, class_obj):
+    def get_widget_child(self, class_obj):
         widget = [child for child in self.get_children() if isinstance(child, class_obj)][0]
         return widget
             
     def on_view_visible(self, view, gparam=None, runlookup=None, word=None):
         headerbar, stack = self.get_window_child_widgets()
-        header_label = [child for child in headerbar.get_children() if isinstance(child, Gtk.Label)][0]
+        #header_label = [child for child in headerbar.get_children() if isinstance(child, Gtk.Label)][0]
+        #header_label = self.get_widget_child(Gtk.Label)
         
         if view.is_visible():
             #header_label.props.label = "Settings"
@@ -117,8 +119,8 @@ class QuickviewWindow(Gtk.ApplicationWindow):
         else:
             view.hide()
             #header_label.props.label = "Workspaces"
-            self.current_view = "workspaces-view"
-            print("on:settings-view > workspaces-view")
+            self.current_view = "viewer-view"
+            print("on:settings-view > viewer-view")
 
         # toggle css styling
         if self.current_view == "settings-view":

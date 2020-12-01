@@ -39,14 +39,11 @@
 }
 
 headerbar {
-    padding-left: 16px;
-    padding-right: 12px;
+    padding-left: 8px;
+    padding-right: 8px;
     padding-top: 4px;
 }
 
-headerbar, .viewswitch {
-    color: white;
-}
 /* ------------------------------ */
 
 
@@ -78,129 +75,8 @@ stack {
 /* ------------------------------ */
 
 
-/* -- Ghoster icon animation -- */
 /* ------------------------------ */
-.Ghoster-icon-left {
-    animation: floating 1.5s ease-in-out infinite;
-}
-
-@keyframes float-down {
-    25% {-gtk-icon-transform: translateY(0px);}
-    75% {-gtk-icon-transform: translateY(-5px);}
-    100% {-gtk-icon-transform: translateX(0px);}
-}
-
-.Ghoster-icon-right {
-    animation: floating 1.25s ease-in-out infinite;
-}
-
-@keyframes floating {
-    25% {-gtk-icon-transform: translateY(0px);}
-    75% {-gtk-icon-transform: translateY(3px);}
-    100% {-gtk-icon-transform: translateY(0px);}
-}
-
-@keyframes floating-two {
-    from {
-        -gtk-icon-transform: translateY(60px);
-    }
-    25% {-gtk-icon-transform: translateY(60px);}
-    75% {-gtk-icon-transform: translateY(65px);}
-    100% {-gtk-icon-transform: translateY(60px);}	
-}
-
-.download-icon-start {
-    -gtk-icon-transform: translateY(60px);
-    transition: -gtk-icon-transform 1.25s;
-    animation: floating-two 1.25s ease-in-out infinite;
-
-}
-/* ------------------------------ */
-
-.appcontainer {
-    box-shadow: none;
-    border: none;
-}
-
-window, stack, headerbar {
-    background-color: #6A0CAB;
-}
- 
-headerbar {
-    box-shadow:
-        1px 0 rgba(255,255,255,0.12) inset,
-        -1px 0 rgba(255,255,255,0.12) inset,
-        0 1px rgba(255,255,255,0.2) inset;
-}
-
-window, stack#main-stack {
-    box-shadow:
-        1px 0 rgba(255,255,255,0.12) inset,
-        -1px 0 rgba(255,255,255,0.12) inset,
-        0 -1px rgba(255,255,255,0.08) inset;
-}
-
-box#workspace-area {
-    box-shadow:
-        0 0 0 1px rgba(0,0,0,0.12),
-        0 3px 6px  rgba(0,0,0,0.16),
-        0 3px 6px  rgba(0,0,0,0.23),
-        0 14px 28px  rgba(0,0,0,0);
+.contents-frame {
     border-radius: 4px;
-    animation: crossfader 1s ease-in-out forwards;
+    background-color: @shaded_darker;
 }
-
-box#workspace-area:focus {
-    animation: crossfader 1s ease-in-out forwards;
-}
-
-
-@keyframes crossfader {
-        0% { opacity: 0; } 
-        03.33% { opacity: 0; }
-        06.66% { opacity: 0; }
-        09.99% { opacity: 0; }
-        13.33% { opacity: 0; }
-        16.65% { opacity: 0.5; }
-        100% { opacity: 1; }	
-}
-
-.workspaces-switcher > button {
-    border-style: none;
-    box-shadow: none;
-    background-color: transparent;
-    opacity: 0.5;
-}
-    
-.workspaces-switcher > button:checked {
-    opacity: 1;
-}
-
-.workspaces-switcher > button:hover {
-    opacity: 0.8;
-}
-
-.workspaces-switcher:backdrop {
-    opacity: 0.7;
-}
-
-label#workspace-name {
-    font-weight: bold;
-}
-
-/* grid#workspace-box {
-    transition: all 750ms ease-in-out;
-} */
-
-
-/* decoration:backdrop {
-    box-shadow:
-    0 0 0 1px rgba(0,0,0,0.6),
-    0 3px 6px  rgba(0,0,0,0.4),
-    0 3px 6px  rgba(0,0,0,0.5),
-    0 14px 28px  rgba(0,0,0,0);
-} */
-
-
-/* -- workspaces-view -- */
-/* ------------------------------ */

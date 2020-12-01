@@ -59,9 +59,6 @@ class QuickviewApp(Gtk.Application):
         self.add_action(quit_action)
         self.set_accels_for_action("app.quit", ["<Ctrl>Q", "Escape"])
 
-        # set dark theme since workspaces-view will rely on dark mode colors. 
-        Gtk.Settings.get_default().set_property("gtk-application-prefer-dark-theme", True)
-        
         # set CSS provider
         provider = Gtk.CssProvider()
         provider.load_from_path("data/application.css")
